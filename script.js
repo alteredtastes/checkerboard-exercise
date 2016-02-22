@@ -22,8 +22,52 @@ function changeColor() {
 }
 
 function interval(){
-  window.setInterval(changeColor, 2000);
+  window.setInterval(changeColor, 100);
+}
+
+function audio(){
+  var ctx = new AudioContext();
+  var sine = ctx.createOscillator();
+  sine.frequency.value = 220;
+  var sinemod = ctx.createOscillator();
+  var sinegain = ctx.createGain();
+
+  sine.connect(sinegain);
+  sinegain.connect(ctx.destination);
+  sine.start();
+  sinemod.frequency.value = 12;
+  sinemod.connect(sinegain.gain);
+  sinemod.start();
+
+
+  var saw = ctx.createOscillator();
+  saw.type = 'sawtooth';
+  saw.frequency.value = 100;
+  var sawmod = ctx.createOscillator();
+  var sawgain = ctx.createGain();
+
+  saw.connect(sawgain);
+  sawgain.connect(ctx.destination);
+  saw.start();
+  sawmod.frequency.value = 0.8;
+  sawmod.connect(sawgain.gain);
+  sawmod.start();
+
+
+  var square = ctx.createOscillator();
+  square.type = 'square';
+  square.frequency.value = 60;
+  var squaremod = ctx.createOscillator();
+  var squaregain = ctx.createGain();
+
+  square.connect(squaregain);
+  squaregain.connect(ctx.destination);
+  square.start();
+  squaremod.frequency.value = 2;
+  squaremod.connect(square.frequency);
+  squaremod.start();
 }
 
 gridbuild();
 interval();
+audio();
